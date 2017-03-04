@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Super Stock Tracker</title>
     <!-- <link rel="stylesheet" href="style.css"> -->
+    <script src="scripts/session.js"></script>
     <script src="scripts/login.js"></script>
 </head>
 
@@ -17,12 +18,30 @@
         <div class="welcome">
 
         </div>
-        <form>
+        <div id="login-form">
             <input type="text" placeholder="Username" name="uname" id="user" required></br>            
             <input type="password" placeholder="Password" name="psw" id="pass" required></br>
             <button type="submit" onclick="login()">Login</button>
-        </form>
+        </div>
+
+        <div id="logout">
+            <button onclick="unsetUser()">Log out</button>
+        </div>
+
+        <div id="welcome-message">
+
+        </div>
+
+        <div>
+            
+            <ul id="stock-list">
+                
+            </ul>
+        </div>
     </section>
+
+    <script src="scripts/render.js"></script>
+    <button onclick="rvc.render()">Test</button>
 </body>
 
 </html>
