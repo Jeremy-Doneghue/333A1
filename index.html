@@ -5,9 +5,7 @@
     <meta charset="utf-8">
     <title>Super Stock Tracker</title>
     <!-- <link rel="stylesheet" href="style.css"> -->
-    <link rel="stylesheet" href="styles/styles.css">
-    <script src="scripts/session.js"></script>
-    <script src="scripts/login.js"></script>
+    <link rel="stylesheet" href="styles/styles.css">  
 </head>
 
 <body>
@@ -16,30 +14,19 @@
     </header>
 
     <section>
-        <div class="welcome">
+        <div class="welcome"></div>
 
-        </div>
+        <div id="login-form"></div>
 
-        <div id="login-form">
+        <div id="logout"></div>
 
-        </div>
-
-        <div id="logout">
-            <!--<button onclick="logout()">Log out</button>-->
-        </div>
-
-        <div id="welcome-message">
-
-        </div>
-
-        <div>
-            
-            <ul id="stock-list">
-                
-            </ul>
-        </div>
+        <div id="welcome-message"></div>
+              
+        <ul id="stock-list"></ul>      
     </section>
 
+    <script src="scripts/session.js"></script>
+    <script src="scripts/login.js"></script>
     <script src="scripts/render.js"></script>
 </body>
 </html>
