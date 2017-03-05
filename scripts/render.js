@@ -99,7 +99,6 @@ function StockPriceDisplay(stock, props) {
         change.appendChild(document.createTextNode(`- ${stock.recentchange}`));
     }
         
-
     container.appendChild(current);
     container.appendChild(change);
 
@@ -112,8 +111,19 @@ function StockPriceDisplay(stock, props) {
  * @param Object props 
  */
 function WelcomeMessage(user, props) {
-    const elem = document.createElement('p');
-    elem.appendChild(document.createTextNode(`Welcome ${user.name}`));
+    const elem = document.createElement('span');
+    elem.appendChild(document.createTextNode(`Welcome, ${user.name}`));
+    return Object.assign(elem, props);
+}
+
+/**
+ * A generic text element
+ * @param {*} text 
+ * @param {*} props 
+ */
+function Text(text, props) {
+    const elem = document.createElement('span');
+    elem.appendChild(document.createTextNode(text));
     return Object.assign(elem, props);
 }
 
@@ -162,6 +172,9 @@ function loginViewController() {
         // If the user is not logged in
         if (!userLoggedIn()) {
 
+            //Welcome message
+            const message = new Text('Please log in', { className: 'welcome-message'});
+
             //Username field
             const username = new Input({
                 type: 'text', 
@@ -181,10 +194,11 @@ function loginViewController() {
             });
 
             //Submit button
-            const submitButton = new Button('Log in', { type: 'submit' });          
+            const submitButton = new Button('Log in', { type: 'submit', className: 'login-button' });          
             submitButton.addEventListener("click", () => { login() });       
 
             //Add the components to the dynamic element
+            this.element.addChild(message);
             this.element.addChild(username);
             this.element.addChild(password);
             this.element.addChild(submitButton);
@@ -222,7 +236,7 @@ function stockListingsController() {
             for (index in user.favStocks) {
                 //Create a stockListItem
                 //Alternate light and dark background
-                const cssClass = (index % 2 == 0) ? 'stock-list-item even' : 'stock-list-item odd';             
+                const cssClass = (index % 2 == 0) ? 'stock-list-item odd' : 'stock-list-item even';             
                 const sli = new StockListItem(user.favStocks[index], { className: cssClass });
 
                 //Show a remove button on hover

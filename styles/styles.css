@@ -1,11 +1,66 @@
+body {
+    background: #ecf0f1;
+    font-family: BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+}
+
+/*General page css*/
+.left-bar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 33%;
+    top: 0;
+
+    background: #2c3e50;
+    width: 25%;
+    min-width: 275pt;
+}
+
+/*=========================*/
+
 /*Login realated things*/
+
+#login-form {
+    width: 90%;
+    padding-left: 4%;
+    padding-right: 6%;
+    margin-top: 10px;
+}
 
 #login-form input{
     display: block;
+    position: relative;
+    width: 100%;
+
+    padding: 10px; 
+    box-sizing: border-box;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.login-button {
+    width: 100%;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+
+    padding: 10px 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #3498db;
 }
 
 .welcome-message {
-
+    position: relative;
+    color: white;
+    display: inline-block;
+    font-size: 24pt;
+    margin-left: 2%;
+    margin-bottom: 5px;
 }
 
 
@@ -13,25 +68,54 @@
 
 /*Stock list related things*/
 
-#rmb {
-    float: right;
-}
-
 #stock-list {
     margin-left: 0;
     padding-left: 0;
 }
 
-.stock-list-item {
-    width: 15em;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    list-style: none;
+.stock-container {
+    position:relative;
+    width: 96%;
+    
+    margin-top: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
+
+    background: #ecf0f1;
+    padding-top: 1em;
+    border-radius: 10px;
+    border: 1px solid #95a5a6;
 }
 
+.stock-container::before {
+    position: relative;
+    content: 'Your stocks';
+    font-weight: bold;
+    float: left;
+    bottom: 7px;
+}
+
+.stock-list-item {
+    position: relative;
+    width: 96%;
+    list-style: none;
+
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+/*Remove button*/
+#rmb {
+    float: right;
+}
+
+/*The current price + change thing*/
 .change-display {
     float: right;
     font-family: monospace;
+    font-size: 12pt;
 }
 
 .stock-price-current {
@@ -39,12 +123,9 @@
 }
 
 .stock-change {
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-radius: 3px;
-
+    position: relative;
+    padding: 5px;
+    border-radius: 5px;
     color: white;
 }
 
