@@ -1,3 +1,65 @@
+/*Login realated things*/
+
 #login-form input{
     display: block;
+}
+
+.welcome-message {
+
+}
+
+
+/*=========================*/
+
+/*Stock list related things*/
+
+#rmb {
+    float: right;
+}
+
+#stock-list {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.stock-list-item {
+    width: 15em;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    list-style: none;
+}
+
+.change-display {
+    float: right;
+    font-family: monospace;
+}
+
+.stock-price-current {
+    padding-right: 3px;
+}
+
+.stock-change {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 3px;
+
+    color: white;
+}
+
+.up {
+    background: #2ecc71;
+}
+
+.down {
+    background: #e74c3c;
+}
+
+.even {
+    background: #ecf0f1;
+}
+
+.odd {
+    background: #bdc3c7;
 }

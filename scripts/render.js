@@ -45,17 +45,6 @@ function dynamicElement(parentElement) {
 }
 
 /**
- * A stock listing in a LI element
- * @param {*} props properties
- */
-function StockListItem(text, props) {
-    const item = document.createElement("LI");
-    const textNode = document.createTextNode(text);
-    item.appendChild(textNode);
-    return Object.assign(item, props);
-}
-
-/**
  * A dumb button
  * @param {*} text the text on the button
  * @param {*} props properties
@@ -76,6 +65,57 @@ function Input(props) {
     return Object.assign(item, props);
 }
 
+/**
+ * A stock listing in an <li> element
+ * @param {*} props properties
+ */
+function StockListItem(stock, props) {
+    const item = document.createElement("LI");
+    const textNode = document.createTextNode(stock.companyname);
+    item.appendChild(textNode);
+    return Object.assign(item, props);
+}
+
+/**
+ * Displays the current stock price and its recent change
+ * @param {*} stock the stock to display
+ * @param {*} props properties
+ */
+function StockPriceDisplay(stock, props) {
+    const container = document.createElement('span');
+
+    const current = document.createElement('span');
+    current.appendChild(document.createTextNode(stock.currentprice));
+    current.className = 'stock-price-current';
+
+    const change = document.createElement('span');
+
+    if (stock.recentchangedirection == 'Up') {
+        change.className = 'stock-change up';
+        change.appendChild(document.createTextNode(`+ ${stock.recentchange}`));
+    } 
+    else {
+        change.className = 'stock-change down';
+        change.appendChild(document.createTextNode(`- ${stock.recentchange}`));
+    }
+        
+
+    container.appendChild(current);
+    container.appendChild(change);
+
+    return Object.assign(container, props);
+}
+
+/**
+ * 
+ * @param Object user 
+ * @param Object props 
+ */
+function WelcomeMessage(user, props) {
+    const elem = document.createElement('p');
+    elem.appendChild(document.createTextNode(`Welcome ${user.name}`));
+    return Object.assign(elem, props);
+}
 
 
 //   __      ___                _____            _             _ _               
@@ -123,7 +163,7 @@ function loginViewController() {
         if (!userLoggedIn()) {
 
             //Username field
-            var username = new Input({
+            const username = new Input({
                 type: 'text', 
                 placeholder: 'Username', 
                 name: 'uname', 
@@ -132,7 +172,7 @@ function loginViewController() {
             });
 
             //Password field
-            var password = new Input({
+            const password = new Input({
                 type: 'password', 
                 placeholder: 'Password', 
                 name: 'psw', 
@@ -141,7 +181,7 @@ function loginViewController() {
             });
 
             //Submit button
-            var submitButton = new Button('Log in', { type: 'submit' });          
+            const submitButton = new Button('Log in', { type: 'submit' });          
             submitButton.addEventListener("click", () => { login() });       
 
             //Add the components to the dynamic element
@@ -151,9 +191,12 @@ function loginViewController() {
         }
         //Display logout button
         else {
+            const welcome = new WelcomeMessage(user, { className: 'welcome-message'});
+
             const logout = new Button('logout', {});
             logout.addEventListener('click', () => { logOut() });  
 
+            this.element.addChild(welcome);
             this.element.addChild(logout);
         }
 
@@ -178,16 +221,34 @@ function stockListingsController() {
             // For each of the users favourite stocks
             for (index in user.favStocks) {
                 //Create a stockListItem
-                const sli = new StockListItem(user.favStocks[index].companyname, {});
-                //Give that stockListItem a button
-                sli.appendChild(new Button(
-                    'x',
-                    {
-                        onclick: function () { alert('remove') },
-                    }
-                ));
+                //Alternate light and dark background
+                const cssClass = (index % 2 == 0) ? 'stock-list-item even' : 'stock-list-item odd';             
+                const sli = new StockListItem(user.favStocks[index], { className: cssClass });
 
-                //Add the stock listing to the list    
+                //Show a remove button on hover
+                sli.addEventListener('mouseenter', (index) => {
+                    //create a button
+                    const removeButton = new Button('x', 
+                    { 
+                        onclick: () => {
+                            alert('todo: remove elements');
+                        },
+                        id: 'rmb',
+                    });
+                    sli.appendChild(removeButton);
+                });
+
+                //remove the button when the mouse leaves
+                sli.addEventListener('mouseleave', () => {                    
+                    sli.removeChild(document.getElementById('rmb'));
+                });
+                        
+                //Create stock price change indicator
+                const changeDisplay = new StockPriceDisplay(user.favStocks[index], { className: 'change-display'});
+
+                //Add the stock price change indicator to the list item 
+                sli.appendChild(changeDisplay);                   
+
                 this.stockList.addChild(sli);
             }
         }
