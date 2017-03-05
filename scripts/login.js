@@ -1,5 +1,5 @@
 /**
- * 
+ *  Logs in the user and loads their data into the user object
  */
 function login() {
     const username = document.getElementById('user').value;

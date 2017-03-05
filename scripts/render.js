@@ -7,16 +7,23 @@
 //                         | |                                   
 //                         |_|                                   
 
+/**
+ * Renders a set of child nodes
+ * @param {*} parentElement the id of the element that this latches onto, usually a div
+ */
 function dynamicElement(parentElement) {
     this.id = parentElement;
     this.head = document.getElementById(this.id),
-        this.children = [],
+    this.children = [],
 
-        this.addChild = (elem) => {
-            this.children.push(elem);
-            this.render();
-        }
+    this.addChild = (elem) => {
+        this.children.push(elem);
+        this.render();
+    }
 
+    /**
+     * Removes all children from the element
+     */
     this.clear = () => {
         this.children = [];
         this.render;
@@ -60,6 +67,15 @@ function Button(text, props) {
     return Object.assign(item, props);
 }
 
+/**
+ * A dumb input
+ * @param {*} props properties
+ */
+function Input(props) {
+    const item = document.createElement("INPUT");
+    return Object.assign(item, props);
+}
+
 
 
 //   __      ___                _____            _             _ _               
@@ -72,7 +88,8 @@ function Button(text, props) {
 //**************===============**************\\                
 
 var rvc = new RootViewController();
-rvc.addChild(new stockListingsController());   
+rvc.addChild(new stockListingsController());  
+rvc.addChild(new loginViewController());
 
 //**************===============**************//      
                                                            
@@ -84,12 +101,63 @@ function RootViewController() {
     this.childViewControllers = [];
     this.addChild = (child) => {
         this.childViewControllers.push(child);
+        this.render();
     }
 
     this.render = () => {
         for (vc of this.childViewControllers) {
             vc.render();
         }
+    }
+}
+
+function loginViewController() {
+
+    this.element = new dynamicElement('login-form');
+
+    this.render = function() {
+
+        this.element.clear();
+        
+        // If the user is not logged in
+        if (!userLoggedIn()) {
+
+            //Username field
+            var username = new Input({
+                type: 'text', 
+                placeholder: 'Username', 
+                name: 'uname', 
+                id: 'user', 
+                required: true,
+            });
+
+            //Password field
+            var password = new Input({
+                type: 'password', 
+                placeholder: 'Password', 
+                name: 'psw', 
+                id: 'pass', 
+                required: true,
+            });
+
+            //Submit button
+            var submitButton = new Button('Log in', { type: 'submit' });          
+            submitButton.addEventListener("click", () => { login() });       
+
+            //Add the components to the dynamic element
+            this.element.addChild(username);
+            this.element.addChild(password);
+            this.element.addChild(submitButton);
+        }
+        //Display logout button
+        else {
+            const logout = new Button('logout', {});
+            logout.addEventListener('click', () => { logOut() });  
+
+            this.element.addChild(logout);
+        }
+
+        this.element.render();
     }
 }
 
@@ -101,8 +169,11 @@ function stockListingsController() {
     this.stockList = new dynamicElement('stock-list');
 
     this.render = function () {
+
+        this.stockList.clear();
+
         //If the user is logged in
-        if (user != null) {
+        if (userLoggedIn()) {
             
             // For each of the users favourite stocks
             for (index in user.favStocks) {
@@ -120,6 +191,8 @@ function stockListingsController() {
                 this.stockList.addChild(sli);
             }
         }
+        //if not logged in display somehting out
+        this.stockList.render();
     }
 }
 
