@@ -105,16 +105,6 @@ function StockPriceDisplay(stock, props) {
     return Object.assign(container, props);
 }
 
-/**
- * 
- * @param Object user 
- * @param Object props 
- */
-function WelcomeMessage(user, props) {
-    const elem = document.createElement('span');
-    elem.appendChild(document.createTextNode(`Welcome, ${user.name}`));
-    return Object.assign(elem, props);
-}
 
 /**
  * A generic text element
@@ -124,6 +114,27 @@ function WelcomeMessage(user, props) {
 function Text(text, props) {
     const elem = document.createElement('span');
     elem.appendChild(document.createTextNode(text));
+    return Object.assign(elem, props);
+}
+
+/**
+ * 
+ * @param Object user 
+ * @param Object props 
+ */
+function WelcomeMessage(user, props) {
+    const text = `Welcome, ${user.name}`;
+    return elem = new Text(text, props);
+}
+
+/**
+ * A text area
+ */
+function TextArea(text, props) {
+    const elem = document.createElement("textarea");
+    const value = () => {
+        return elem.value();
+    }
     return Object.assign(elem, props);
 }
 
