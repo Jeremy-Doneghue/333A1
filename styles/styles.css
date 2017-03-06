@@ -22,8 +22,8 @@ body {
 
 #login-form {
     width: 90%;
-    padding-left: 4%;
-    padding-right: 6%;
+    padding-left: 5%;
+    padding-right: 5%;
     margin-top: 10px;
 }
 
@@ -54,12 +54,15 @@ body {
     background-color: #3498db;
 }
 
+.logout-button {
+    float: right;
+}
+
 .welcome-message {
     position: relative;
     color: white;
     display: inline-block;
     font-size: 24pt;
-    margin-left: 2%;
     margin-bottom: 5px;
 }
 
@@ -75,11 +78,11 @@ body {
 
 .stock-container {
     position:relative;
-    width: 96%;
+    width: 90%;
     
     margin-top: 10px;
-    margin-left: 2%;
-    margin-right: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
 
     background: #ecf0f1;
     padding-top: 1em;
