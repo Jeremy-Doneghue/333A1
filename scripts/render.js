@@ -11,15 +11,15 @@
  * Renders a set of child nodes
  * @param {*} parentElement the id of the element that this latches onto, usually a div
  */
-function dynamicElement(parentElement) {
+function dynamicElement(parentElement, props) {
     this.id = parentElement;
-    this.head = document.getElementById(this.id),
-    this.children = [],
+    this.head = Object.assign(document.getElementById(this.id), props);
+    this.children = [];
 
     this.addChild = (elem) => {
         this.children.push(elem);
         this.render();
-    }
+    };
 
     /**
      * Removes all children from the element
@@ -27,7 +27,7 @@ function dynamicElement(parentElement) {
     this.clear = () => {
         this.children = [];
         this.render;
-    }
+    };
 
     this.render = () => {
         //Remove children
@@ -41,7 +41,7 @@ function dynamicElement(parentElement) {
                 this.head.appendChild(this.children[elem]);
             }
         }
-    }
+    };
 }
 
 /**
@@ -163,7 +163,7 @@ function RootViewController() {
 
 function loginViewController() {
 
-    this.element = new dynamicElement('login-form');
+    this.element = new dynamicElement('login-form', {});
 
     this.render = function() {
 
@@ -223,10 +223,14 @@ function loginViewController() {
  */
 function stockListingsController() {
 
-    this.stockList = new dynamicElement('stock-list');
+    this.stockList = new dynamicElement('stock-list', {});
 
     this.render = function () {
 
+        // Show the container, this isn't that elegant of a solution, but it works.
+        document.getElementById('stock-container').style.display = 'block';
+
+        // Clear existing elements so we can re-render them
         this.stockList.clear();
 
         //If the user is logged in
@@ -266,7 +270,9 @@ function stockListingsController() {
                 this.stockList.addChild(sli);
             }
         }
-        //if not logged in display somehting out
+        else {
+            document.getElementById('stock-container').style.display = 'none';
+        }
         this.stockList.render();
     }
 }
