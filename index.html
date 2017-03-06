@@ -14,7 +14,9 @@
     </header>
 
     <section class="left-bar">
-        <div class="welcome"></div>
+        <div class="welcome">
+            <button onclick="testAddStock()">testAddStock()</button>
+        </div>
 
         <div id="login-form"></div>
 
@@ -22,10 +24,12 @@
 
         <div id="welcome-message"></div>              
         
-        <div class="stock-container">
+        <div id="stock-container" class="stock-container">
             <ul id="stock-list"></ul>              
         </div>
     </section>
+
+    
 
     <script src="scripts/session.js"></script>
     <script src="scripts/login.js"></script>
