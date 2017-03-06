@@ -172,7 +172,7 @@ function loginViewController() {
         // If the user is not logged in
         if (!userLoggedIn()) {
 
-            //Welcome message
+            //Log in message message
             const message = new Text('Please log in', { className: 'welcome-message'});
 
             //Username field
@@ -207,7 +207,7 @@ function loginViewController() {
         else {
             const welcome = new WelcomeMessage(user, { className: 'welcome-message'});
 
-            const logout = new Button('logout', {});
+            const logout = new Button('logout', { className: 'logout-button' });
             logout.addEventListener('click', () => { logOut() });  
 
             this.element.addChild(welcome);
