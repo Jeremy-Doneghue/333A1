@@ -12,8 +12,8 @@
  * @param {*} parentElement the id of the element that this latches onto, usually a div
  */
 function dynamicElement(parentElement, props) {
-    this.id = parentElement;
-    this.head = Object.assign(document.getElementById(this.id), props);
+
+    this.head = Object.assign(parentElement, props);
     this.children = [];
 
     this.addChild = (elem) => {
@@ -138,6 +138,11 @@ function TextArea(text, props) {
     return Object.assign(elem, props);
 }
 
+function UnorderedList(props) {
+    const elem = document.createElement('ul');
+    return Object.assign(elem, props);
+}
+
 
 //   __      ___                _____            _             _ _               
 //   \ \    / (_)              / ____|          | |           | | |              
@@ -174,7 +179,7 @@ function RootViewController() {
 
 function loginViewController() {
 
-    this.element = new dynamicElement('login-form', {});
+    this.element = new dynamicElement(document.getElementById('login-form'), {});
 
     this.render = function() {
 
@@ -234,15 +239,19 @@ function loginViewController() {
  */
 function stockListingsController() {
 
-    this.stockList = new dynamicElement('stock-list', {});
+    this.stockArea = new dynamicElement(document.getElementById('stock-container'), { className: 'stock-container'});
 
     this.render = function () {
 
         // Show the container, this isn't that elegant of a solution, but it works.
         document.getElementById('stock-container').style.display = 'block';
 
+        const ul = new UnorderedList({});
+        const stockList = new dynamicElement(ul, {id: 'stock-list'});
+
         // Clear existing elements so we can re-render them
-        this.stockList.clear();
+        stockList.clear();
+        this.stockArea.clear();
 
         //If the user is logged in
         if (userLoggedIn()) {
@@ -278,13 +287,14 @@ function stockListingsController() {
                 //Add the stock price change indicator to the list item 
                 sli.appendChild(changeDisplay);                   
 
-                this.stockList.addChild(sli);
+                this.stockArea.addChild(stockList.head);
+                stockList.addChild(sli);
             }
         }
         else {
             document.getElementById('stock-container').style.display = 'none';
         }
-        this.stockList.render();
+        this.stockArea.render();
     }
 }
 
