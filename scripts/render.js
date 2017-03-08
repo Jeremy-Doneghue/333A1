@@ -132,9 +132,7 @@ function WelcomeMessage(user, props) {
  */
 function TextArea(text, props) {
     const elem = document.createElement("textarea");
-    const value = () => {
-        return elem.value();
-    }
+    elem.value = text;
     return Object.assign(elem, props);
 }
 
@@ -323,7 +321,10 @@ function stockListingsController() {
                 const noteLabel = new Text(`${user.favStocks[this.selectedStock].companyname} - Notes`, { 
                     className: 'notes-label' 
                 });
-                const noteArea = new TextArea('test', { className: 'notes', rows: 5, });
+                const noteArea = new TextArea(user.favStocks[this.selectedStock].note, { 
+                    className: 'notes', 
+                    rows: 5,
+                });
                 this.stockArea.addChild(noteLabel);
                 this.stockArea.addChild(noteArea);
             }
