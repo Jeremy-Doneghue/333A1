@@ -5,14 +5,13 @@ body {
 
 /*General page css*/
 .left-bar {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    right: 33%;
-    top: 0;
+    position: absolute;
+    height: 100%;
+    width: 70%;
+    margin-left: 15%;
 
     background: #2c3e50;
-    width: 25%;
+    /*width: 25%;*/
     min-width: 275pt;
 }
 
@@ -21,9 +20,9 @@ body {
 /*Login realated things*/
 
 #login-form {
-    width: 90%;
-    padding-left: 5%;
-    padding-right: 5%;
+    width: 50%;
+    padding-left: 25%;
+    padding-right: 25%;
     margin-top: 10px;
 }
 
@@ -78,11 +77,11 @@ body {
 
 .stock-container {
     position:relative;
-    width: 90%;
+    width: 50%;
     
     margin-top: 10px;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
 
     background: #ecf0f1;
     padding-top: 1em;
@@ -96,6 +95,7 @@ body {
     font-weight: bold;
     float: left;
     bottom: 7px;
+    left: 5px;
 }
 
 .stock-list-item {
@@ -132,6 +132,12 @@ body {
     color: white;
 }
 
+.stock-selected {
+    font-weight: bold;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
 .up {
     background: #2ecc71;
 }
@@ -146,4 +152,15 @@ body {
 
 .odd {
     background: #bdc3c7;
+}
+
+/*Notes section*/
+.notes {
+    width: 80%;
+    margin-left: 9.5%;
+    margin-right: 10.5%;
+}
+
+.notes-label {
+    margin-left: 9.5%;
 }

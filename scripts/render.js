@@ -239,7 +239,9 @@ function loginViewController() {
  */
 function stockListingsController() {
 
-    this.stockArea = new dynamicElement(document.getElementById('stock-container'), { className: 'stock-container'});
+    this.stockArea = new dynamicElement(document.getElementById('stock-container'), { className: 'stock-container' });
+
+    this.selectedStock = -1;
 
     this.render = function () {
 
@@ -247,7 +249,7 @@ function stockListingsController() {
         document.getElementById('stock-container').style.display = 'block';
 
         const ul = new UnorderedList({});
-        const stockList = new dynamicElement(ul, {id: 'stock-list'});
+        const stockList = new dynamicElement(ul, { id: 'stock-list' });
 
         // Clear existing elements so we can re-render them
         stockList.clear();
@@ -262,7 +264,12 @@ function stockListingsController() {
                 //Create a stockListItem
                 //Alternate light and dark background
                 const cssClass = (index % 2 == 0) ? 'stock-list-item odd' : 'stock-list-item even';             
-                const sli = new StockListItem(user.favStocks[index], { className: cssClass });
+                const sli = new StockListItem(user.favStocks[index], { className: cssClass, listIndex: index });
+
+                //Check if this listing is the selected stock
+                if (this.selectedStock == sli.listIndex) {
+                    sli.className += ' stock-selected';
+                }
 
                 //Show a remove button on hover
                 sli.addEventListener('mouseenter', (index) => {
@@ -281,6 +288,18 @@ function stockListingsController() {
                 sli.addEventListener('mouseleave', () => {                    
                     sli.removeChild(document.getElementById('rmb'));
                 });
+                //Highlight a stock when clicked
+                sli.addEventListener('click', () => {             
+                    //If already selected, deselect
+                    if (this.selectedStock ==  sli.listIndex) {
+                        this.selectedStock = -1;
+                    }  
+                    //Else select
+                    else {
+                        this.selectedStock = sli.listIndex;
+                    }                                     
+                    this.render();
+                });          
                         
                 //Create stock price change indicator
                 const changeDisplay = new StockPriceDisplay(user.favStocks[index], { className: 'change-display'});
@@ -293,9 +312,15 @@ function stockListingsController() {
             }
 
             // Add the text area to stockArea
-            // const noteLabel = new Text()
-            const noteArea = new TextArea('test', { className: 'notes' });
-            this.stockArea.addChild(noteArea);
+            if (this.selectedStock != -1) {
+                const noteLabel = new Text(`${user.favStocks[this.selectedStock].companyname} - Notes`, { 
+                    className: 'notes-label' 
+                });
+                const noteArea = new TextArea('test', { className: 'notes', rows: 5, });
+                this.stockArea.addChild(noteLabel);
+                this.stockArea.addChild(noteArea);
+            }
+            
         }
         else {
             document.getElementById('stock-container').style.display = 'none';
