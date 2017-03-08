@@ -263,12 +263,15 @@ function stockListingsController() {
             for (index in user.favStocks) {
                 //Create a stockListItem
                 //Alternate light and dark background
-                const cssClass = (index % 2 == 0) ? 'stock-list-item odd' : 'stock-list-item even';             
-                const sli = new StockListItem(user.favStocks[index], { 
+                const cssClass = (index % 2 == 0) ? 'stock-list-item odd' : 'stock-list-item even';
+
+                //Stock list object             
+                const sli = new StockListItem(user.favStocks[index], {
+
                     className: cssClass, 
                     listIndex: index,
 
-                    //Event listeners
+                    //onclick event listener
                     onclick: () => {             
                         //If already selected, deselect
                         if (this.selectedStock ==  sli.listIndex) {
@@ -279,31 +282,31 @@ function stockListingsController() {
                             this.selectedStock = sli.listIndex;
                         }                                     
                         this.render();
-                    } 
+                    },
+
+                    //Add a button to remove a stock on hover
+                    onmouseenter: () => {
+                        //create a button
+                        const removeButton = new Button('x', 
+                        { 
+                            onclick: () => {
+                                alert('todo: remove elements');
+                            },
+                            id: 'rmb',
+                        });
+                        sli.appendChild(removeButton);
+                    },
+
+                    //remove the button when the mouse leaves
+                    onmouseleave: () => {
+                        sli.removeChild(document.getElementById('rmb'));
+                    },
                 });
 
                 //Check if this listing is the selected stock
                 if (this.selectedStock == sli.listIndex) {
                     sli.className += ' stock-selected';
-                }
-
-                //Show a remove button on hover
-                sli.addEventListener('mouseenter', (index) => {
-                    //create a button
-                    const removeButton = new Button('x', 
-                    { 
-                        onclick: () => {
-                            alert('todo: remove elements');
-                        },
-                        id: 'rmb',
-                    });
-                    sli.appendChild(removeButton);
-                });
-
-                //remove the button when the mouse leaves
-                sli.addEventListener('mouseleave', () => {                    
-                    sli.removeChild(document.getElementById('rmb'));
-                });        
+                }      
                         
                 //Create stock price change indicator
                 const changeDisplay = new StockPriceDisplay(user.favStocks[index], { className: 'change-display'});
