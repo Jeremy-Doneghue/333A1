@@ -256,6 +256,7 @@ function stockListingsController() {
         //If the user is logged in
         if (userLoggedIn()) {
             
+            //Render the stockList
             // For each of the users favourite stocks
             for (index in user.favStocks) {
                 //Create a stockListItem
@@ -290,6 +291,11 @@ function stockListingsController() {
                 this.stockArea.addChild(stockList.head);
                 stockList.addChild(sli);
             }
+
+            // Add the text area to stockArea
+            // const noteLabel = new Text()
+            const noteArea = new TextArea('test', { className: 'notes' });
+            this.stockArea.addChild(noteArea);
         }
         else {
             document.getElementById('stock-container').style.display = 'none';
