@@ -264,7 +264,23 @@ function stockListingsController() {
                 //Create a stockListItem
                 //Alternate light and dark background
                 const cssClass = (index % 2 == 0) ? 'stock-list-item odd' : 'stock-list-item even';             
-                const sli = new StockListItem(user.favStocks[index], { className: cssClass, listIndex: index });
+                const sli = new StockListItem(user.favStocks[index], { 
+                    className: cssClass, 
+                    listIndex: index,
+
+                    //Event listeners
+                    onclick: () => {             
+                        //If already selected, deselect
+                        if (this.selectedStock ==  sli.listIndex) {
+                            this.selectedStock = -1;
+                        }  
+                        //Else select
+                        else {
+                            this.selectedStock = sli.listIndex;
+                        }                                     
+                        this.render();
+                    } 
+                });
 
                 //Check if this listing is the selected stock
                 if (this.selectedStock == sli.listIndex) {
@@ -287,19 +303,7 @@ function stockListingsController() {
                 //remove the button when the mouse leaves
                 sli.addEventListener('mouseleave', () => {                    
                     sli.removeChild(document.getElementById('rmb'));
-                });
-                //Highlight a stock when clicked
-                sli.addEventListener('click', () => {             
-                    //If already selected, deselect
-                    if (this.selectedStock ==  sli.listIndex) {
-                        this.selectedStock = -1;
-                    }  
-                    //Else select
-                    else {
-                        this.selectedStock = sli.listIndex;
-                    }                                     
-                    this.render();
-                });          
+                });        
                         
                 //Create stock price change indicator
                 const changeDisplay = new StockPriceDisplay(user.favStocks[index], { className: 'change-display'});
