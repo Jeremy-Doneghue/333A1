@@ -19,7 +19,8 @@
             'currentprice' => $row['currentprice'],
             'recentchange' => $row['recentchange'],
             'annualtrend' => $row['annualtrend'],
-            'recentchangedirection' => $row['recentchangedirection']            
+            'recentchangedirection' => $row['recentchangedirection'],
+            'stockid' => $row['id']            
         ];
         array_push($stocks, $stockObject);
     }

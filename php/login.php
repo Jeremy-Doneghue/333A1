@@ -37,12 +37,18 @@ function sendData($con, $id, $username) {
     $favStockResult = mysqli_query($con, $favStocksQuery);
     $numrows = mysqli_num_rows($favStockResult);
     $stocks = array();
-    while ($id = mysqli_fetch_assoc($favStockResult)['stock']) {
+    while ($stock = mysqli_fetch_assoc($favStockResult)['stock']) {
 
         //Query each stock
-        $stockQuery = "SELECT * FROM stocks WHERE id = '$id'";
+        $stockQuery = "SELECT * FROM stocks WHERE id = '$stock'";
         $result = mysqli_query($con, $stockQuery);
         $row = mysqli_fetch_assoc($result);
+
+        // Get notes for each stock
+        $stockId = $row['id'];
+        $notesQuery = "SELECT * FROM notes WHERE user = '$id' AND stock = '$stockId'";
+        $notesResult = mysqli_query($con, $notesQuery);
+        $notesRow = mysqli_fetch_assoc($notesResult);
 
         //Put the info into an object
         $stockObject = (object)[
@@ -50,7 +56,9 @@ function sendData($con, $id, $username) {
             'currentprice' => $row['currentprice'],
             'recentchange' => $row['recentchange'],
             'annualtrend' => $row['annualtrend'],
-            'recentchangedirection' => $row['recentchangedirection']            
+            'recentchangedirection' => $row['recentchangedirection'],
+            'stockid' => $row['id'],
+            'note' => $notesRow['note']            
         ];
         array_push($stocks, $stockObject);
     }
