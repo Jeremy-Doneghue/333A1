@@ -286,11 +286,15 @@ function stockListingsController() {
 
                     //Add a button to remove a stock on hover
                     onmouseenter: () => {
+
                         //create a button
                         const removeButton = new Button('x', 
                         { 
                             onclick: () => {
-                                alert('todo: remove elements');
+                                let stockList = user.favStocks;
+                                stockList.splice(sli.listIndex, 1);
+                                this.selectedStock = -1;
+                                this.render();
                             },
                             id: 'rmb',
                         });
