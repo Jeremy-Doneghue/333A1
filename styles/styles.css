@@ -85,15 +85,6 @@ body {
     border: 1px solid #95a5a6;
 }
 
-.stock-container::before {
-    position: relative;
-    content: 'Your stocks';
-    font-weight: bold;
-    float: left;
-    bottom: 7px;
-    left: 5px;
-}
-
 .stock-list-item {
     position: relative;
     width: 96%;
@@ -134,6 +125,16 @@ body {
     padding-bottom: 1em;
 }
 
+.stock-header-label {
+    font-weight: bold;
+    padding-left: 2%;
+}
+
+.button-add-stocks {
+    float: right;
+    margin-right: 2%;
+}
+
 .up {
     background: #2ecc71;
 }
@@ -159,4 +160,17 @@ body {
 
 .notes-label {
     margin-left: 9.5%;
+}
+
+/*Adding stocks section*/
+.no-more-stocks {
+    display: block;
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 1em;
+}
+
+.add-stock-button {
+    margin-left: 1em;
 }

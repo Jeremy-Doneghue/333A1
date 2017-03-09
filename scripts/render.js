@@ -69,9 +69,9 @@ function Input(props) {
  * A stock listing in an <li> element
  * @param {*} props properties
  */
-function StockListItem(stock, props) {
+function StockListItem(text, props) {
     const item = document.createElement("LI");
-    const textNode = document.createTextNode(stock.companyname);
+    const textNode = document.createTextNode(text);
     item.appendChild(textNode);
     return Object.assign(item, props);
 }
@@ -208,8 +208,11 @@ function loginViewController() {
             });
 
             //Submit button
-            const submitButton = new Button('Log in', { type: 'submit', className: 'login-button' });          
-            submitButton.addEventListener("click", () => { login() });       
+            const submitButton = new Button('Log in', { 
+                type: 'submit', 
+                className: 'login-button',
+                onclick: () => { login() },
+            });           
 
             //Add the components to the dynamic element
             this.element.addChild(message);
@@ -240,14 +243,21 @@ function stockListingsController() {
     this.stockArea = new dynamicElement(document.getElementById('stock-container'), { className: 'stock-container' });
 
     this.selectedStock = -1;
+    this.addingNewStocks = false;
 
     this.render = function () {
 
-        console.log("render");
+        // If the user is logged out, then stop adding new stocks 
+        //(this is for if the previous user logged out while still adding stocks) 
+        //From http://stackoverflow.com/a/32108184
+        if (Object.keys(user).length === 0 && user.constructor === Object){
+            this.addingNewStocks = false;
+        }
 
-        // Show the container, this isn't that elegant of a solution, but it works.
+        // Show the container, since it's display:none during login
         document.getElementById('stock-container').style.display = 'block';
 
+        // Create stock list parent elements
         const ul = new UnorderedList({});
         const stockList = new dynamicElement(ul, { id: 'stock-list' });
 
@@ -257,6 +267,24 @@ function stockListingsController() {
 
         //If the user is logged in
         if (userLoggedIn()) {
+
+            //Stocklist header
+            const label = new Text('Your stocks', { 
+                className: 'stock-header-label',
+            });
+
+            const addButtonText = (this.addingNewStocks) ? 'Done' : 'Add';
+            const addButton = new Button(addButtonText, { 
+                className: 'button-add-stocks',
+                //Toggle adding stocks
+                onclick: () => { 
+                    this.addingNewStocks = !this.addingNewStocks; 
+                    this.render()
+                },
+            });
+
+            this.stockArea.addChild(label);
+            this.stockArea.addChild(addButton);
             
             //Render the stockList
             // For each of the users favourite stocks
@@ -265,8 +293,13 @@ function stockListingsController() {
                 //Alternate light and dark background
                 const cssClass = (index % 2 == 0) ? 'stock-list-item odd' : 'stock-list-item even';
 
-                //Stock list object             
-                const sli = new StockListItem(user.favStocks[index], {
+                let itemText = user.favStocks[index].companyname;
+                // if (this.selectedStock == index) {
+                //     //TODO: itemText += ` Annual trend - ${user.favStocks[index].annualtrend}`;
+                // }                  
+
+                //Stock list object
+                const sli = new StockListItem(itemText, {
 
                     className: cssClass, 
                     listIndex: index,
@@ -293,17 +326,23 @@ function stockListingsController() {
                             onclick: () => {
                                 let stockList = user.favStocks;
                                 stockList.splice(sli.listIndex, 1);
-                                this.selectedStock = -1;
+                                // this.selectedStock = -1;
                                 this.render();
                             },
                             id: 'rmb',
                         });
-                        sli.appendChild(removeButton);
+
+                        // If not currently adding stocks, allow them to be deleted
+                        if (!this.addingNewStocks) {
+                            sli.appendChild(removeButton);
+                        }                        
                     },
 
                     //remove the button when the mouse leaves
                     onmouseleave: () => {
-                        sli.removeChild(document.getElementById('rmb'));
+                        if (!this.addingNewStocks) {
+                            sli.removeChild(document.getElementById('rmb'));
+                        }                        
                     },
                 });
 
@@ -339,6 +378,43 @@ function stockListingsController() {
                 });
                 this.stockArea.addChild(noteLabel);
                 this.stockArea.addChild(noteArea);
+            }
+
+            //If we are adding new stocks to the favourites
+            if (this.addingNewStocks) {
+
+                filterFavourites();
+
+                const newStockList = new UnorderedList({
+                    className: 'add-stock-list',
+                });
+
+                // If there is at least one stock that is not the user's favourite
+                if (nonFavouriteStocks.length > 0) {
+                    // Display the stocks that the user could add
+                    for (index in nonFavouriteStocks) {                    
+                        const item = new StockListItem(nonFavouriteStocks[index].companyname, {
+                            className: 'add-stock-item',
+                        });
+
+                        const addStockButton = new Button('Add', {
+                            className: 'add-stock-button',
+                            stock: nonFavouriteStocks[index],
+                            onclick: () => {
+                                addFavouriteStock(addStockButton.stock);                                
+                            },
+                        });
+                        item.appendChild(addStockButton);
+                        newStockList.appendChild(item);
+                    }
+                    this.stockArea.addChild(newStockList);
+                }
+                else {
+                    const noMoreStocks = new Text('You sure must love stocks, because you\'ve added them all!', {
+                        className: 'no-more-stocks'
+                    });
+                    this.stockArea.addChild(noMoreStocks);
+                }                
             }
         }
         // If the user is not logged in, display nothing

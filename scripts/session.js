@@ -1,4 +1,5 @@
 var user = {};
+var nonFavouriteStocks = [];
 var fullStockList = {};
 
 /**
@@ -45,7 +46,6 @@ function retrieveFullStockList() {
     var ajax = new XMLHttpRequest();
     ajax.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-
             console.log(JSON.stringify(JSON.parse(this.responseText), null, 2));
             fullStockList = JSON.parse(this.responseText);
         }
@@ -55,27 +55,26 @@ function retrieveFullStockList() {
 }
 
 /**
- * Filter out the stocks that the user has already favourited
+ * Add the stocks that aren't in the user's favourites list to nonFavouriteStocks
  */
 function filterFavourites() {
-    // Array of indexes in fullStockList where they are also a user favourite
-    var matches = [];
 
-    // Remove stocks that are already in the favourites
-    // For each in the full list of stocks
-    for (let i = 0; i < fullStockList.length; i++) {
+    nonFavouriteStocks = [];
+    
+    for (index in fullStockList) {
 
-        // For each of the user's favourite stocks
-        for (let j = 0; j < user.favStocks.length; j++) {
-            // If there's a match
-            if (user.favStocks[j].companyname == fullStockList[i].companyname) {
-                matches.push(i);
+        let toAdd = fullStockList[index].stockid;
+
+        let foundMatch = false;
+        for (jdex in user.favStocks) {
+            if (user.favStocks[jdex].stockid == toAdd) {
+                foundMatch = true;
+                break;
             }
         }
-    }
-
-    for (index in matches) {
-        fullStockList.splice(index, 1);
+        if (!foundMatch) {
+            nonFavouriteStocks.push(fullStockList[index]);
+        }
     }
 }
 
@@ -85,10 +84,5 @@ function filterFavourites() {
  */
 function addFavouriteStock(stock) {
     user.favStocks.push(stock);
-    filterFavourites();
     rvc.render();
-}
-
-function testAddStock(){
-    addFavouriteStock(fullStockList[0]);
 }
