@@ -64,7 +64,7 @@ function sendData($con, $id, $username) {
     }
     
     // Object to encode to json
-    $user = (object)['name' => $username, 'favStocks' => $stocks];
+    $user = (object)['name' => $username, 'uid' => $id, 'favStocks' => $stocks];
     echo json_encode($user);
 }
 ?>
