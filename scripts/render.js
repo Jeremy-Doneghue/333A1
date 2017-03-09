@@ -122,7 +122,7 @@ function Text(text, props) {
  * @param Object user 
  * @param Object props 
  */
-function WelcomeMessage(user, props) {
+function WelcomeMessage(stock, props) {
     const text = `Welcome, ${user.name}`;
     return elem = new Text(text, props);
 }
@@ -130,7 +130,7 @@ function WelcomeMessage(user, props) {
 /**
  * A text area
  */
-function TextArea(text, props) {
+function NotesArea(text, props) {
     const elem = document.createElement("textarea");
     elem.value = text;
     return Object.assign(elem, props);
@@ -243,6 +243,8 @@ function stockListingsController() {
 
     this.render = function () {
 
+        console.log("render");
+
         // Show the container, this isn't that elegant of a solution, but it works.
         document.getElementById('stock-container').style.display = 'block';
 
@@ -321,15 +323,21 @@ function stockListingsController() {
                 const noteLabel = new Text(`${user.favStocks[this.selectedStock].companyname} - Notes`, { 
                     className: 'notes-label' 
                 });
-                const noteArea = new TextArea(user.favStocks[this.selectedStock].note, { 
+                const noteArea = new NotesArea(user.favStocks[this.selectedStock].note, { 
                     className: 'notes', 
                     rows: 5,
+                    onkeyup: () => {
+                        // Save the updated note to the user object after each change
+                        let stockToChange = user.favStocks[this.selectedStock];
+                        stockToChange = Object.assign(stockToChange, { note: noteArea.value });
+                        user.favStocks[this.selectedStock] = stockToChange; 
+                    }  
                 });
                 this.stockArea.addChild(noteLabel);
                 this.stockArea.addChild(noteArea);
             }
-            
         }
+        // If the user is not logged in, display nothing
         else {
             document.getElementById('stock-container').style.display = 'none';
         }
