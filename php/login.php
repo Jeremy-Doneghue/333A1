@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 $username = $_GET['user'];
 $password = $_GET['pass'];
 
@@ -21,6 +23,7 @@ $row = mysqli_fetch_assoc($result);
 $count = mysqli_num_rows($result);
 
 if ($count == 1) {
+    $_SESSION['id'] = $row['uid'];
     sendData($con, $row['uid'], $row['username']);
 }
 else {
