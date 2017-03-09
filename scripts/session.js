@@ -2,7 +2,7 @@ var user = {};
 var fullStockList = {};
 
 /**
- * Returns whether the user us logged in or not
+ * Returns whether the user is logged in or not
  */
 function userLoggedIn() {
     if (Object.keys(user).length === 0 && user.constructor === Object) {
@@ -11,6 +11,18 @@ function userLoggedIn() {
     return true;
 }
 
+/**
+ * Save the user's favourite stocks and notes to the database
+ */
+function saveUserStocks() {
+    const json = JSON.stringify(user.favStocks);
+    console.log(json);
+}
+
+/**
+ * Sets the user object from a json string
+ * @param {*} jsonString 
+ */
 function setUser(jsonString) {
     user = Object.assign(user, JSON.parse(jsonString));
     retrieveFullStockList();
