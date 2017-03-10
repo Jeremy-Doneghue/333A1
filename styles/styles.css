@@ -152,14 +152,33 @@ body {
 }
 
 /*Notes section*/
-.notes {
-    width: 80%;
-    margin-left: 9.5%;
-    margin-right: 10.5%;
+.annual-trend-label,
+.stock-details-label,
+.no-more-stocks,
+.notes-label {
+    display: block;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .notes-label {
-    margin-left: 9.5%;
+    font-weight: bold;
+}
+
+.annual-trend-label:before {
+    content: 'Annual trend: ';
+    font-weight: bold;
+}
+
+.stock-details-label {
+    text-align: center;
+    font-weight: bold;
+}
+
+.notes {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 /*Adding stocks section*/
@@ -173,4 +192,8 @@ body {
 
 .add-stock-button {
     margin-left: 1em;
+}
+
+.divider {
+    width: 100%;
 }

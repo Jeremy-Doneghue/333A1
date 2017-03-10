@@ -141,6 +141,11 @@ function UnorderedList(props) {
     return Object.assign(elem, props);
 }
 
+function HorizontalLine(props) {
+    const elem = document.createElement('hr');
+    return Object.assign(elem, props);
+}
+
 
 //   __      ___                _____            _             _ _               
 //   \ \    / (_)              / ____|          | |           | | |              
@@ -293,10 +298,7 @@ function stockListingsController() {
                 //Alternate light and dark background
                 const cssClass = (index % 2 == 0) ? 'stock-list-item odd' : 'stock-list-item even';
 
-                let itemText = user.favStocks[index].companyname;
-                // if (this.selectedStock == index) {
-                //     //TODO: itemText += ` Annual trend - ${user.favStocks[index].annualtrend}`;
-                // }                  
+                let itemText = user.favStocks[index].companyname;                 
 
                 //Stock list object
                 const sli = new StockListItem(itemText, {
@@ -363,8 +365,22 @@ function stockListingsController() {
 
             // Add the text area to stockArea
             if (this.selectedStock != -1) {
-                const noteLabel = new Text(`${user.favStocks[this.selectedStock].companyname} - Notes`, { 
-                    className: 'notes-label' 
+
+                const hr = new HorizontalLine({
+                    className: 'divider',
+                });
+
+                const stockLabel = new Text(`${user.favStocks[this.selectedStock].companyname}`, {
+                    className: 'stock-details-label',
+                });
+
+                const annualTrend = new Text(
+                    `${user.favStocks[this.selectedStock].annualtrend}`,
+                    { className: 'annual-trend-label' }
+                );
+
+                const noteLabel = new Text('Notes:', { 
+                    className: 'notes-label',
                 });
                 const noteArea = new NotesArea(user.favStocks[this.selectedStock].note, { 
                     className: 'notes', 
@@ -376,6 +392,9 @@ function stockListingsController() {
                         user.favStocks[this.selectedStock] = stockToChange; 
                     }  
                 });
+                this.stockArea.addChild(hr);
+                this.stockArea.addChild(stockLabel);
+                this.stockArea.addChild(annualTrend);
                 this.stockArea.addChild(noteLabel);
                 this.stockArea.addChild(noteArea);
             }
