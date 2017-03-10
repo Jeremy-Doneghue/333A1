@@ -184,6 +184,14 @@ function loginViewController() {
 
     this.element = new dynamicElement(document.getElementById('login-form'), {});
 
+    // Listen for the enter key on the login page
+    window.addEventListener('keypress', (event) => {
+        var key = event.which || event.keyCode;
+        if (key == 13 && !userLoggedIn()){
+            login();
+        }
+    });
+
     this.render = function() {
 
         this.element.clear();
