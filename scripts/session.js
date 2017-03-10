@@ -35,6 +35,8 @@ function setUser(jsonString) {
  */
 function logOut() {
     user = {};
+    nonFavouriteStocks = [];
+    fullStockList = {};
     rvc.render();
 }
 
