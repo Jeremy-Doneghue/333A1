@@ -440,7 +440,6 @@ function stockListingsController() {
         else {
             document.getElementById('stock-container').style.display = 'none';
         }
-        this.stockArea.render();
     }
 }
 
