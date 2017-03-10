@@ -16,8 +16,14 @@ function login() {
     var ajax = new XMLHttpRequest();
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            setUser(this.responseText);
-            console.log(JSON.stringify(JSON.parse(this.responseText), null, 2));
+            if (this.responseText != 'false') {
+                document.getElementById('login-fail').style.display = 'none';
+                setUser(this.responseText);
+                console.log(JSON.stringify(JSON.parse(this.responseText), null, 2));
+            }
+            else {
+                document.getElementById('login-fail').style.display = 'block';
+            }
         }
     };
     ajax.open("GET", `php/login.php?user=${username}&pass=${password}`);

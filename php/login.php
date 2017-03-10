@@ -27,7 +27,7 @@ if ($count == 1) {
     sendData($con, $row['uid'], $row['username']);
 }
 else {
-    echo "Incorrect username or password";
+    echo "false";
 }
 
 //Close the connection

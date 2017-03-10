@@ -225,13 +225,18 @@ function loginViewController() {
                 type: 'submit', 
                 className: 'login-button',
                 onclick: () => { login() },
-            });           
+            });  
+
+            const failMessage = new Text('Incorrect username or password', {
+                id: 'login-fail',
+            });         
 
             //Add the components to the dynamic element
             this.element.addChild(message);
             this.element.addChild(username);
             this.element.addChild(password);
             this.element.addChild(submitButton);
+            this.element.addChild(failMessage);
         }
         //Display logout button
         else {

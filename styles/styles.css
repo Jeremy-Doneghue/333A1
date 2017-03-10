@@ -61,6 +61,11 @@ body {
     margin-bottom: 5px;
 }
 
+#login-fail {
+    color: red;
+    display: none;
+}
+
 
 /*=========================*/
 
