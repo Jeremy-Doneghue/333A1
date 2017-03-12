@@ -16,8 +16,30 @@ function userLoggedIn() {
  * Save the user's favourite stocks and notes to the database
  */
 function saveUserStocks() {
-    const json = JSON.stringify(user.favStocks);
-    console.log(json);
+    let obj = {};
+    obj = Object.assign(obj, { uid: user.uid});
+    let stocks = { favStocks: [] };
+    for (index in user.favStocks) {
+        let stock = { 
+            stockid: user.favStocks[index].stockid,
+            note: user.favStocks[index].note,
+        };
+        stocks.favStocks.push(stock);
+    }
+    obj = Object.assign(obj, stocks);
+    const json = JSON.stringify(obj);
+    
+    var ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }           
+    };
+    ajax.open('POST', `php/saveUserData.php`, true);
+    ajax.setRequestHeader("Content-type", "application/json");
+    ajax.send(json);
+
+    console.log('Data to be saved' + json);
 }
 
 /**
