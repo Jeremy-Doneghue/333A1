@@ -17,9 +17,12 @@ if ($_SESSION['id'] == $data['uid']) {
         $stockid = $favStock['stockid'];
         $note = $favStock['note'];
 
-        $stmt = mysqli_prepare($con, "UPDATE notes SET note = ? WHERE user = ? AND stock = ?");
-        mysqli_stmt_bind_param($stmt, 'sii', $note, $uid, $stockid);
+        //$stmt = mysqli_prepare($con, "UPDATE notes SET note = ? WHERE user = ? AND stock = ?");
+        //mysqli_stmt_bind_param($stmt, 'sii', $note, $uid, $stockid);
 
+        $stmt = mysqli_prepare($con, "INSERT INTO notes (note, user, stock) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE note = ?");
+        mysqli_stmt_bind_param($stmt, 'siis', $note, $uid, $stockid, $note);
+        
         mysqli_stmt_execute($stmt);
     }
 }
