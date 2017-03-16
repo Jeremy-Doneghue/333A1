@@ -273,7 +273,7 @@ function stockListingsController() {
         }
 
         // Show the container, since it's display:none during login
-        document.getElementById('stock-container').style.display = 'block';
+        this.stockArea.head.style.display = 'block';       
 
         // Create stock list parent elements
         const ul = new UnorderedList({});
@@ -338,10 +338,12 @@ function stockListingsController() {
                         //create a button
                         const removeButton = new Button('x', 
                         { 
-                            onclick: () => {
+                            onclick: (e) => {
                                 let stockList = user.favStocks;
                                 stockList.splice(sli.listIndex, 1);
-                                // this.selectedStock = -1;
+
+                                //Stop event propogation so that the item containing this button's onclick handler is not activated.
+                                e.stopPropagation();
                                 this.render();
                             },
                             id: 'rmb',
@@ -451,7 +453,7 @@ function stockListingsController() {
         }
         // If the user is not logged in, display nothing
         else {
-            document.getElementById('stock-container').style.display = 'none';
+            this.stockArea.head.style.display = 'none';
         }
     }
 }
