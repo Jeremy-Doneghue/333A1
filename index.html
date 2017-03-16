@@ -4,28 +4,21 @@
 <head>
     <meta charset="utf-8">
     <title>Super Stock Tracker</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
     <link rel="stylesheet" href="styles/styles.css">  
 </head>
 
 <body>
-    <!--<header>
-        <h1>Super Stock Tracker</h1>
-    </header>-->
-
-    <section class="left-bar">
-        <div class="welcome">
-            <button onclick="saveUserStocks()">testSaveStocks</button>
-        </div>
+    <div class="left-bar">
+        
+        <!--Temporary button to trigger saving stocks to database-->
+        <button onclick="saveUserStocks()">testSaveStocks</button>
 
         <div id="login-form"></div>
 
         <div id="logout"></div>
-
-        <div id="welcome-message"></div>              
         
         <div id="stock-container"></div>     
-    </section>
+    </div>
 
     <script src="scripts/session.js"></script>
     <script src="scripts/login.js"></script>
