@@ -197,7 +197,7 @@ function loginViewController() {
         this.element.clear();
         
         // If the user is not logged in
-        if (!userLoggedIn()) {
+        if (false) {
 
             //Log in message message
             const message = new Text('Please log in', { className: 'welcome-message'});
@@ -242,7 +242,10 @@ function loginViewController() {
         else {
             const welcome = new WelcomeMessage(user, { className: 'welcome-message'});
 
-            const logout = new Button('logout', { className: 'logout-button' });
+            const logout = new Button('logout', { 
+                className: 'logout-button', 
+                disabled: true // Disable logout for demo purposes
+            });
             logout.addEventListener('click', () => { logOut() });  
 
             this.element.addChild(welcome);
@@ -378,6 +381,13 @@ function stockListingsController() {
                 stockList.addChild(sli);
             }
 
+            if (user.favStocks.length == 0) {
+                const noMoreStocks = new Text('You should add some stocks to your list.\nClick Add to get started!', {
+                    className: 'no-more-stocks'
+                });
+                this.stockArea.addChild(noMoreStocks);
+            }
+
             // Add the text area to stockArea
             if (this.selectedStock != -1) {
 
@@ -406,7 +416,7 @@ function stockListingsController() {
                         stockToChange = Object.assign(stockToChange, { note: noteArea.value });
                         user.favStocks[this.selectedStock] = stockToChange; 
                     }  
-                });
+                });                
                 this.stockArea.addChild(hr);
                 this.stockArea.addChild(stockLabel);
                 this.stockArea.addChild(annualTrend);
@@ -441,8 +451,8 @@ function stockListingsController() {
                         item.appendChild(addStockButton);
                         newStockList.appendChild(item);
                     }
-                    this.stockArea.addChild(newStockList);
-                }
+                    this.stockArea.addChild(newStockList);                    
+                }                
                 else {
                     const noMoreStocks = new Text('You sure must love stocks, because you\'ve added them all!', {
                         className: 'no-more-stocks'

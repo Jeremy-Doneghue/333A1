@@ -1,6 +1,58 @@
-var user = {};
+var user = {
+  "name": "Demo User",
+  "uid": "2",
+  "favStocks": [
+    {
+      "companyname": "Fling Fing",
+      "currentprice": "0.94",
+      "recentchange": "0.11",
+      "annualtrend": "Down",
+      "recentchangedirection": "Up",
+      "stockid": "4",
+      "note": "Keep an eye on this one."
+    },
+    {
+      "companyname": "XYZ Logistics",
+      "currentprice": "1.00",
+      "recentchange": "0.05",
+      "annualtrend": "Down",
+      "recentchangedirection": "Down",
+      "stockid": "2",
+      "note": "Divest now!"
+    },
+    {
+      "companyname": "Acme Publishing",
+      "currentprice": "1.33",
+      "recentchange": "0.08",
+      "annualtrend": "Up",
+      "recentchangedirection": "Down",
+      "stockid": "3",
+      "note": "BOOM!"
+    },
+    {
+      "companyname": "Total Solutions Inc",
+      "currentprice": "0.55",
+      "recentchange": "0.01",
+      "annualtrend": "Down",
+      "recentchangedirection": "Up",
+      "stockid": "6",
+      "note": "Outlook not looking good."
+    },
+    {
+      "companyname": "Neutral Networks",
+      "currentprice": "1.25",
+      "recentchange": "0.40",
+      "annualtrend": "Up",
+      "recentchangedirection": "Up",
+      "stockid": "5",
+      "note": "This one's a bit convoluted, I should feed forward this information to my advisor.\nI've had a recurrant thought in my mind that I should learn more about this company."
+    }
+  ]
+};
+
 var nonFavouriteStocks = [];
 var fullStockList = {};
+retrieveFullStockList();
 
 /**
  * Returns whether the user is logged in or not
@@ -67,15 +119,16 @@ function logOut() {
  */
 function retrieveFullStockList() {
 
-    var ajax = new XMLHttpRequest();
-    ajax.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(JSON.stringify(JSON.parse(this.responseText), null, 2));
-            fullStockList = JSON.parse(this.responseText);
-        }
-    };
-    ajax.open("GET", `php/getStockList.php`);
-    ajax.send();
+    // var ajax = new XMLHttpRequest();
+    // ajax.onreadystatechange = function () {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         console.log(this.responseText);
+    //         fullStockList = JSON.parse(this.responseText);
+    //     }
+    // };
+    // ajax.open("GET", `php/getStockList.php`);
+    // ajax.send();
+    fullStockList = JSON.parse(`[{"companyname":"ABC Company","currentprice":"0.40","recentchange":"0.02","annualtrend":"Up","recentchangedirection":"Up","stockid":"1"},{"companyname":"XYZ Logistics","currentprice":"1.00","recentchange":"0.05","annualtrend":"Down","recentchangedirection":"Down","stockid":"2"},{"companyname":"Acme Publishing","currentprice":"1.33","recentchange":"0.08","annualtrend":"Up","recentchangedirection":"Down","stockid":"3"},{"companyname":"Fling Fing","currentprice":"0.94","recentchange":"0.11","annualtrend":"Down","recentchangedirection":"Up","stockid":"4"},{"companyname":"Neutral Networks","currentprice":"1.25","recentchange":"0.40","annualtrend":"Up","recentchangedirection":"Up","stockid":"5"},{"companyname":"Total Solutions Inc","currentprice":"0.55","recentchange":"0.01","annualtrend":"Down","recentchangedirection":"Up","stockid":"6"}]`);
 }
 
 /**
